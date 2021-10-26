@@ -1,0 +1,10 @@
+{
+  "appId": "ru.samovar.quasar",
+  "appName": "samovar",
+  "bundledWebRuntime": false,
+  "npmClient": "yarn",
+  "webDir": "www",
+  "server": {
+    "url": "http://192.168.4.238:8080"
+  }
+}
