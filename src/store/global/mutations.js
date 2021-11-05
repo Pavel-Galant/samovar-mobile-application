@@ -11,3 +11,7 @@ export const toggleTriggerState = (state, idx) => {
 export const removeTrigger = (state, idx) => {
   state.triggers.splice(idx, 1);
 }
+
+export const setTriggers = (state, value) => {
+  state.triggers = [...value];
+}

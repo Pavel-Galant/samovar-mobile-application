@@ -84,13 +84,13 @@
         <q-list bordered v-if="!isEmptyTriggers">
           <q-item tag="label" v-ripple v-for="(item, idx) in triggers" :key="idx">
             <q-item-section avatar>
-              <q-toggle color="blue" :model-value="item.active" @update:model-value="$store.commit('global/toggleTriggerState', idx)" />
+              <q-toggle color="blue" :model-value="item.active" @update:model-value="changeTriggerStatus(idx)" />
             </q-item-section>
             <q-item-section>
               <q-item-label>{{ item.trigger.label }} {{ item.operator }} {{ item.value }}</q-item-label>
             </q-item-section>
             <q-item-section side>
-              <q-btn size="16px" flat dense round icon="delete" @click="$store.commit('global/removeTrigger', idx)" />
+              <q-btn size="16px" flat dense round icon="delete" @click="removeTrigger(idx)" />
             </q-item-section>
           </q-item>
         </q-list>
@@ -153,6 +153,8 @@ import { CanvasRenderer } from "echarts/renderers";
 import { GaugeChart } from "echarts/charts";
 import VChart from "vue-echarts";
 import { useStore } from 'vuex';
+import { Plugins } from 'app/src-capacitor/node_modules/@capacitor/core';
+const { Storage } = Plugins;
 import { tools } from "boot/tools";
 
 use([CanvasRenderer, GaugeChart]);
@@ -254,12 +256,27 @@ export default defineComponent({
       showAddTriggerDialog,
       triggers,
       isEmptyTriggers,
-      addNewTrigger () {
+      async addNewTrigger () {
         $store.commit('global/addTrigger', JSON.parse(JSON.stringify(newTrigger.value)));
+        await Storage.set({
+          key: 'triggers',
+          value: JSON.stringify($store.state.global.triggers),
+        });
         showAddTriggerDialog.value = false;
       },
-      changeTriggerState (value, evt, idx) {
-        alert(value)
+      async removeTrigger (idx) {
+        $store.commit('global/removeTrigger', idx);
+        await Storage.set({
+          key: 'triggers',
+          value: JSON.stringify($store.state.global.triggers),
+        });
+      },
+      async changeTriggerStatus (idx) {
+        $store.commit('global/toggleTriggerState', idx)
+        await Storage.set({
+          key: 'triggers',
+          value: JSON.stringify($store.state.global.triggers),
+        });
       }
     };
   }

@@ -48,8 +48,6 @@
 </template>
 
 <script>
-import EssentialLink from 'components/EssentialLink.vue'
-
 const linksList = [
   {
     title: 'Home',
@@ -90,6 +88,8 @@ const linksList = [
 
 import { defineComponent, ref, computed } from 'vue';
 import { useStore } from 'vuex';
+import EssentialLink from 'components/EssentialLink.vue'
+import { useQuasar } from 'quasar';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -101,6 +101,8 @@ export default defineComponent({
   setup () {
     const leftDrawerOpen = ref(false);
     const $store = useStore();
+    const $q = useQuasar();
+    //$q.notify('Message');
 
     const powerStatus = computed({
       get: () => Number($store.state.device.data.PowerOn) === 1 ? 'On' : 'Off',
