@@ -6,10 +6,9 @@
           v-model="tab"
           inline
           :options="[
-          { label: 'Application', value: 'app' },
-          { label: 'Device', value: 'device' },
-
-        ]"
+            { label: 'Application', value: 'app' },
+            { label: 'Device', value: 'device' },
+          ]"
         />
 
         <q-tab-panels v-model="tab" animated class="shadow-2 rounded-borders">
